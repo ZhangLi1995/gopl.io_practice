@@ -2,9 +2,15 @@ package main
 
 import "fmt"
 
-func appendInt(x []int, y int) []int {
+// slice 类似于下面的聚合类型，而非纯引用类型
+type IntSlice struct {
+	ptr      *int
+	len, cap int
+}
+
+func appendInt(x []int, y ...int) []int {
 	var z []int
-	zlen := len(x) + 1
+	zlen := len(x) + len(y)
 	if zlen <= cap(x) {
 		// slice 仍有增长空间，扩展 slice 内容
 		z = x[:zlen]
@@ -18,7 +24,7 @@ func appendInt(x []int, y int) []int {
 		z = make([]int, zlen, zcap)
 		copy(z, x) // 内置 copy 函数
 	}
-	z[len(x)] = y
+	copy(z[len(x):], y)
 	return z
 }
 
@@ -29,4 +35,11 @@ func main() {
 		fmt.Printf("%d  cap=%d\t%v\n", i, cap(y), y)
 		x = y
 	}
+
+	var a []int
+	a = append(a, 1)
+	a = append(a, 2, 3)
+	a = append(a, 4, 5, 6)
+	a = append(a, a...)
+	fmt.Println(a)
 }
