@@ -1,0 +1,29 @@
+package bytecounter
+
+import (
+	"fmt"
+	"io"
+	"os"
+)
+
+type ByteCounter int
+
+func (c *ByteCounter) Write(p []byte) (int, error) {
+	*c += ByteCounter(len(p))
+	return len(p), nil
+}
+
+func main() {
+	var c ByteCounter
+	c.Write([]byte("hello"))
+	fmt.Println(c)
+
+	c = 0
+	var name = "Dolly"
+	fmt.Fprintf(&c, "hello, %s", name)
+	fmt.Println(c)
+
+	var w io.Writer
+	w = os.Stdout
+	fmt.Printf("%T\n", w)
+}
