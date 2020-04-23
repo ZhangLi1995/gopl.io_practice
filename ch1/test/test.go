@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"reflect"
 	"time"
 )
 
@@ -63,8 +64,13 @@ func main() {
 	//	}
 	//}
 
-	m := map[string]string{
-		"a": "A",
-	}
-	fmt.Printf("%v, %T\n", m["b"], m["b"])
+	//m := map[string]string{
+	//	"a": "A",
+	//}
+	//fmt.Printf("%v, %T\n", m["b"], m["b"])
+
+	v := reflect.ValueOf(3)
+	fmt.Println(v)
+	fmt.Printf("%T\n", v)
+	fmt.Println(v.String())
 }
